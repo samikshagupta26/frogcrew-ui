@@ -15,7 +15,7 @@
                 </div>
 
                 <div v-if="successMessage"
-                    class="bg-green-100 border border-green-400 text-green-700 p-x-4 p-y-3 rounded relative"
+                    class="bg-purple-100 border border-purple-400 text-purple-700 p-x-4 p-y-3 rounded relative"
                     role="alert">
                     <span class="block sm:inline">{{ successMessage }}</span>
                 </div>
@@ -48,7 +48,7 @@
 
                 <div class="flex items-center justify-between">
                     <div class="text-sm">
-                        <router-link to="/login" class="font-medium text-green-600 hover:text-green-500">
+                        <router-link to="/login" class="font-medium text-purple-600 hover:text-purple-500">
                             Already have an account? Sign in
                         </router-link>
                     </div>

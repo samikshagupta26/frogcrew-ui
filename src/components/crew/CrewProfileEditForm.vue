@@ -47,7 +47,7 @@
                     </div>
                 </form>
 
-                <div v-if="updateSuccess" class="mt-4 bg-green-100 border border-green-400 text-green-700 p-3 rounded">
+                <div v-if="updateSuccess" class="mt-4 bg-purple-100 border border-purple-400 text-purple-700 p-3 rounded">
                     Profile updated successfully!
                 </div>
             </div>

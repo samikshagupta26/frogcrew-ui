@@ -52,7 +52,7 @@
                                             <p class="text-sm text-gray-500">{{ schedule.season }}</p>
                                         </div>
                                         <span class="px-3 py-1 text-xs font-medium rounded-full" :class="{
-                                            'bg-green-100 text-green-800': schedule.status === 'PUBLISHED',
+                                            'bg-purple-100 text-purple-800': schedule.status === 'PUBLISHED',
                                             'bg-yellow-100 text-yellow-800': schedule.status === 'DRAFT',
                                             'bg-gray-100 text-gray-800': schedule.status === 'ARCHIVED'
                                         }">

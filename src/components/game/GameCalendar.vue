@@ -73,7 +73,7 @@
                             <h4 class="font-semibold text-gray-900">{{ schedule.name || schedule.sport }}</h4>
                             <span :class="[
                                 'px-3 py-1 rounded-full text-xs font-medium',
-                                schedule.status === 'PUBLISHED' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                                schedule.status === 'PUBLISHED' ? 'bg-purple-100 text-purple-800' : 'bg-yellow-100 text-yellow-800'
                             ]">
                                 {{ schedule.status }}
                             </span>

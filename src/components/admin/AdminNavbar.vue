@@ -6,7 +6,7 @@
                     <!-- Logo/Brand -->
                     <div class="flex items-center">
                         <div
-                            class="h-8 w-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
+                            class="h-8 w-8 rounded-lg bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center">
                             <span class="text-white font-bold text-lg">FC</span>
                         </div>
                         <span class="ml-2 text-lg font-semibold text-gray-900">Frog Crew</span>
@@ -17,12 +17,12 @@
                         <router-link to="/admin/game-management"
                             class="relative px-3 py-2 text-sm font-medium transition-colors duration-200" :class="[
                                 $route.path === '/admin/game-management'
-                                    ? 'text-emerald-600'
+                                    ? 'text-purple-600'
                                     : 'text-gray-500 hover:text-gray-900'
                             ]">
                             Game Management
                             <span v-if="$route.path === '/admin/game-management'"
-                                class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 rounded-full"></span>
+                                class="absolute bottom-0 left-0 w-full h-0.5 bg-purple-600 rounded-full"></span>
                         </router-link>
 
                     </nav>

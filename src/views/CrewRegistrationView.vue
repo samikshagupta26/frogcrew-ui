@@ -21,7 +21,7 @@
                 </div>
 
                 <div v-if="successMessage"
-                    class="bg-green-100 border border-green-400 text-green-700 p-x-4 p-y-3 rounded relative"
+                    class="bg-purple-100 border border-purple-400 text-purple-700 p-x-4 p-y-3 rounded relative"
                     role="alert">
                     <span class="block sm:inline">{{ successMessage }}</span>
                 </div>

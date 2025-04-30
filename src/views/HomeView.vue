@@ -2,7 +2,7 @@
     <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
         <!-- Loading State -->
         <div v-if="isLoading" class="flex items-center justify-center min-h-screen">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
         </div>
 
         <!-- Error State -->
@@ -21,7 +21,7 @@
                     <div class="flex justify-between items-center py-4">
                         <div class="flex items-center space-x-3">
                             <div
-                                class="h-10 w-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-sm">
+                                class="h-10 w-10 rounded-xl bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center shadow-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -29,13 +29,13 @@
                                 </svg>
                             </div>
                             <h1
-                                class="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                                class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">
                                 Frog Crew</h1>
                         </div>
                         <div class="flex items-center space-x-4">
                             <div class="flex items-center space-x-3 bg-slate-50 px-4 py-2 rounded-xl shadow-sm">
                                 <div
-                                    class="h-9 w-9 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-medium shadow-sm">
+                                    class="h-9 w-9 rounded-xl bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center text-white font-medium shadow-sm">
                                     {{ user?.firstName?.charAt(0) || user?.role?.charAt(0) || 'U' }}
                                 </div>
                                 <span class="text-sm font-medium text-slate-700">{{ user?.firstName || user?.role ||
@@ -76,10 +76,10 @@
                 <div v-if="!activeFeature">
                     <!-- Welcome Section -->
                     <div
-                        class="card mb-8 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-2xl overflow-hidden shadow-lg">
+                        class="card mb-8 bg-gradient-to-r from-purple-500 to-violet-600 text-white rounded-2xl overflow-hidden shadow-lg">
                         <div class="p-8">
                             <h2 class="text-3xl font-bold mb-3">Welcome to Frog Crew</h2>
-                            <p class="text-emerald-100 text-lg">Manage your crew, schedule games, and stay organized
+                            <p class="text-purple-100 text-lg">Manage your crew, schedule games, and stay organized
                                 with
                                 our comprehensive platform.</p>
                         </div>
@@ -117,7 +117,7 @@
                             <h2 class="text-3xl font-bold text-slate-800">Admin Dashboard</h2>
                             <div class="flex items-center space-x-4">
                                 <div class="flex items-center space-x-2 bg-slate-50 px-4 py-2 rounded-xl">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-600" fill="none"
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -141,7 +141,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-4">
-                                    <span class="text-sm text-green-600 font-medium">+2 new this week</span>
+                                    <span class="text-sm text-purple-600 font-medium">+2 new this week</span>
                                 </div>
                             </div>
                             <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
@@ -178,12 +178,12 @@
                                         <p class="text-sm font-medium text-slate-500">Crew Availability</p>
                                         <h3 class="text-2xl font-bold text-slate-800 mt-1">85%</h3>
                                     </div>
-                                    <div class="h-12 w-12 rounded-xl bg-green-50 flex items-center justify-center">
-                                        <ClipboardDocumentCheckIcon class="h-6 w-6 text-green-600" />
+                                    <div class="h-12 w-12 rounded-xl bg-purple-50 flex items-center justify-center">
+                                        <ClipboardDocumentCheckIcon class="h-6 w-6 text-purple-600" />
                                     </div>
                                 </div>
                                 <div class="mt-4">
-                                    <span class="text-sm text-green-600 font-medium">+5% from last week</span>
+                                    <span class="text-sm text-purple-600 font-medium">+5% from last week</span>
                                 </div>
                             </div>
                         </div>
@@ -250,8 +250,8 @@
                                     <div class="p-4 hover:bg-slate-50 transition-colors duration-200">
                                         <div class="flex items-center space-x-3">
                                             <div
-                                                class="h-8 w-8 rounded-full bg-green-50 flex items-center justify-center">
-                                                <ClipboardDocumentCheckIcon class="h-4 w-4 text-green-600" />
+                                                class="h-8 w-8 rounded-full bg-purple-50 flex items-center justify-center">
+                                                <ClipboardDocumentCheckIcon class="h-4 w-4 text-purple-600" />
                                             </div>
                                             <div>
                                                 <p class="text-sm font-medium text-slate-800">Availability updated</p>
@@ -354,8 +354,8 @@ const crewFeatures = [
         title: 'Your Profile',
         description: 'Set up your account and manage your profile information',
         icon: UserIcon,
-        bgColor: 'bg-emerald-100',
-        iconColor: 'text-emerald-600',
+        bgColor: 'bg-purple-100',
+        iconColor: 'text-purple-600',
         buttonText: 'Update Profile'
     },
     {
@@ -363,8 +363,8 @@ const crewFeatures = [
         title: 'Crew Directory',
         description: 'View contact info and roles for other crew members',
         icon: UsersIcon,
-        bgColor: 'bg-teal-100',
-        iconColor: 'text-teal-600',
+        bgColor: 'bg-violet-100',
+        iconColor: 'text-violet-600',
         buttonText: 'View Directory'
     },
     {
@@ -393,8 +393,8 @@ const adminFeatures = [
         title: 'Crew Administration',
         description: 'Manage and edit crew members',
         icon: UsersIcon,
-        bgColor: 'bg-emerald-100',
-        iconColor: 'text-emerald-600',
+        bgColor: 'bg-purple-100',
+        iconColor: 'text-purple-600',
         buttonText: 'Manage Crew'
     },
     {
@@ -402,8 +402,8 @@ const adminFeatures = [
         title: 'Game Management',
         description: 'Create schedules, add games, and assign crew',
         icon: CalendarIcon,
-        bgColor: 'bg-teal-100',
-        iconColor: 'text-teal-600',
+        bgColor: 'bg-violet-100',
+        iconColor: 'text-violet-600',
         buttonText: 'Manage Games'
     },
     {

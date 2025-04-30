@@ -1,13 +1,13 @@
 <template>
-    <div class="min-h-screen bg-gradient-to-br from-green-50 to-green-100 py-8 px-4 sm:px-6 lg:px-8">
+    <div class="min-h-screen bg-gradient-to-br from-purple-50 to-purple-100 py-8 px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto">
             <div class="bg-white shadow-2xl rounded-xl overflow-hidden">
                 <!-- Header Section -->
-                <div class="bg-gradient-to-r from-green-600 to-green-700 px-8 py-6">
+                <div class="bg-gradient-to-r from-purple-600 to-purple-700 px-8 py-6">
                     <div class="flex items-center justify-between">
                         <h3 class="text-2xl font-bold text-white">Crew Assignment Board</h3>
                         <div class="flex items-center space-x-2">
-                            <span class="text-green-100 text-sm">Admin Dashboard</span>
+                            <span class="text-purple-100 text-sm">Admin Dashboard</span>
                         </div>
                     </div>
                 </div>
@@ -20,7 +20,7 @@
                         </label>
                         <div class="relative">
                             <select v-model="selectedGameId"
-                                class="block w-full pl-4 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-lg transition duration-150 ease-in-out"
+                                class="block w-full pl-4 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-lg transition duration-150 ease-in-out"
                                 @change="loadGameDetails">
                                 <option value="" class="text-gray-500">-- Select a game --</option>
                                 <option v-for="game in games" :key="game.id" :value="game.id" class="py-2">
@@ -40,7 +40,7 @@
 
                     <!-- Loading indicators -->
                     <div v-if="isLoadingGames" class="flex justify-center py-12">
-                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
                     </div>
 
                     <div v-if="error" class="mb-8 bg-red-50 border-l-4 border-red-400 p-4">
@@ -60,23 +60,23 @@
 
                     <!-- Game Details -->
                     <div v-if="selectedGame"
-                        class="mb-8 bg-gradient-to-r from-green-50 to-green-100 rounded-xl p-6 shadow-sm">
+                        class="mb-8 bg-gradient-to-r from-purple-50 to-purple-100 rounded-xl p-6 shadow-sm">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div
                                 class="bg-white p-6 rounded-lg shadow-sm transform hover:scale-105 transition duration-200">
                                 <span class="text-gray-500 text-sm block mb-2">Opponent</span>
-                                <span class="text-2xl font-bold text-green-900">{{ selectedGame.opponent }}</span>
+                                <span class="text-2xl font-bold text-purple-900">{{ selectedGame.opponent }}</span>
                             </div>
                             <div
                                 class="bg-white p-6 rounded-lg shadow-sm transform hover:scale-105 transition duration-200">
                                 <span class="text-gray-500 text-sm block mb-2">Date & Time</span>
-                                <span class="text-2xl font-bold text-green-900">{{ formatDate(selectedGame.gameDate) }}
+                                <span class="text-2xl font-bold text-purple-900">{{ formatDate(selectedGame.gameDate) }}
                                     at {{ formatTime(selectedGame.gameStart) }}</span>
                             </div>
                             <div
                                 class="bg-white p-6 rounded-lg shadow-sm transform hover:scale-105 transition duration-200">
                                 <span class="text-gray-500 text-sm block mb-2">Venue</span>
-                                <span class="text-2xl font-bold text-green-900">{{ selectedGame.venue }}</span>
+                                <span class="text-2xl font-bold text-purple-900">{{ selectedGame.venue }}</span>
                             </div>
                         </div>
                     </div>
@@ -106,8 +106,8 @@
                                         <div class="flex items-center space-x-4">
                                             <div class="flex-shrink-0">
                                                 <div
-                                                    class="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center shadow-sm">
-                                                    <span class="text-green-600 font-semibold text-lg">{{
+                                                    class="h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center shadow-sm">
+                                                    <span class="text-purple-600 font-semibold text-lg">{{
                                                         assignment.userFirstName?.charAt(0) || '' }}{{
                                                             assignment.userLastName?.charAt(0) || '' }}</span>
                                                 </div>
@@ -116,7 +116,7 @@
                                                 <div class="font-medium text-gray-900 text-lg">{{
                                                     assignment.userFirstName || '' }} {{ assignment.userLastName || ''
                                                     }}</div>
-                                                <div class="text-sm text-green-600 font-medium">{{
+                                                <div class="text-sm text-purple-600 font-medium">{{
                                                     assignment.positionName || '' }}</div>
                                                 <div class="text-xs text-gray-500 flex items-center mt-1">
                                                     <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor"
@@ -155,7 +155,7 @@
                                                 Crew Member
                                             </label>
                                             <select v-model="newAssignment.userId"
-                                                class="block w-full pl-4 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-lg transition duration-150 ease-in-out"
+                                                class="block w-full pl-4 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-lg transition duration-150 ease-in-out"
                                                 required>
                                                 <option value="">-- Select crew member --</option>
                                                 <option v-for="member in availableCrewMembers" :key="member.id"
@@ -170,7 +170,7 @@
                                                 Position
                                             </label>
                                             <select v-model="newAssignment.position.id"
-                                                class="block w-full pl-4 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-lg transition duration-150 ease-in-out"
+                                                class="block w-full pl-4 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-lg transition duration-150 ease-in-out"
                                                 @change="updatePositionDetails" required>
                                                 <option value="">-- Select position --</option>
                                                 <option v-for="position in positions" :key="position.id"
@@ -186,13 +186,13 @@
                                             Report Time
                                         </label>
                                         <input v-model="newAssignment.reportTime" type="time"
-                                            class="block w-full pl-4 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-lg transition duration-150 ease-in-out"
+                                            class="block w-full pl-4 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-lg transition duration-150 ease-in-out"
                                             required />
                                     </div>
 
                                     <div class="flex justify-end">
                                         <button type="submit"
-                                            class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out"
+                                            class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition duration-150 ease-in-out"
                                             :disabled="isSubmitting">
                                             <svg v-if="isSubmitting" class="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
                                                 fill="none" viewBox="0 0 24 24">
@@ -207,35 +207,19 @@
                                     </div>
                                 </form>
 
-                                <!-- Success message -->
-                                <div v-if="submitSuccess"
-                                    class="mt-4 bg-green-50 border-l-4 border-green-400 p-4 rounded-lg">
+                                <!-- Success Message -->
+                                <div v-if="successMessage" 
+                                    class="mt-4 bg-purple-50 border-l-4 border-purple-400 p-4 rounded-lg">
                                     <div class="flex">
                                         <div class="flex-shrink-0">
-                                            <svg class="h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <svg class="h-5 w-5 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd"
                                                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                                     clip-rule="evenodd" />
                                             </svg>
                                         </div>
                                         <div class="ml-3">
-                                            <p class="text-sm text-green-700">Assignment added successfully!</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Submit error -->
-                                <div v-if="submitError" class="mt-4 bg-red-50 border-l-4 border-red-400 p-4 rounded-lg">
-                                    <div class="flex">
-                                        <div class="flex-shrink-0">
-                                            <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd"
-                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
-                                        </div>
-                                        <div class="ml-3">
-                                            <p class="text-sm text-red-700">{{ submitError }}</p>
+                                            <p class="text-sm text-purple-700">Assignment added successfully!</p>
                                         </div>
                                     </div>
                                 </div>

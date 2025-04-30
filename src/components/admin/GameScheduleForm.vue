@@ -45,7 +45,7 @@
         </form>
 
         <div v-if="message" class="mt-4 p-3 rounded-md"
-            :class="success ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'">
+            :class="success ? 'bg-purple-100 text-purple-700' : 'bg-red-100 text-red-700'">
             {{ message }}
         </div>
     </div>

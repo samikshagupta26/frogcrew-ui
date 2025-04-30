@@ -95,7 +95,7 @@
                         <div class="mb-6">
                             <span :class="[
                                 'px-4 py-2 inline-flex text-sm font-semibold rounded-full',
-                                crewMember.role === 'ADMIN' ? 'bg-purple-100 text-purple-800' : 'bg-green-100 text-green-800'
+                                crewMember.role === 'ADMIN' ? 'bg-purple-100 text-purple-800' : 'bg-purple-100 text-purple-800'
                             ]">
                                 {{ crewMember.role }}
                             </span>
@@ -226,7 +226,7 @@
                                     <h5 class="text-sm font-medium text-gray-500">Role</h5>
                                     <span :class="[
                                         'mt-1 px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full',
-                                        selectedCrewMember.role === 'ADMIN' ? 'bg-purple-100 text-purple-800' : 'bg-green-100 text-green-800'
+                                        selectedCrewMember.role === 'ADMIN' ? 'bg-purple-100 text-purple-800' : 'bg-purple-100 text-purple-800'
                                     ]">
                                         {{ selectedCrewMember.role }}
                                     </span>

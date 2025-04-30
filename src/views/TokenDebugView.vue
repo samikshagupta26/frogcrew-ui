@@ -18,7 +18,7 @@
             <div v-if="results" class="border border-gray-200 rounded-md p-4 mb-6">
                 <h2 class="font-bold text-lg mb-3">Test Results</h2>
 
-                <div v-if="results.success" class="mb-4 p-3 bg-green-100 border border-green-300 rounded">
+                <div v-if="results.success" class="mb-4 p-3 bg-purple-100 border border-purple-300 rounded">
                     <p class="font-medium">✅ Success! Token is valid</p>
                     <p class="text-sm">Working endpoint: {{ results.workingEndpoint }}</p>
                     <div class="mt-2">
