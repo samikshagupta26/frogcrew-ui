@@ -2,14 +2,14 @@
     <div class="max-w-4xl mx-auto">
         <div class="bg-white shadow-lg rounded-xl overflow-hidden">
             <!-- Header Section -->
-            <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6">
+            <div class="bg-gradient-to-r from-purple-600 to-purple-800 p-6">
                 <h3 class="text-2xl font-bold text-white">Submit Your Availability</h3>
-                <p class="text-blue-100 mt-2">Let us know when you're available for upcoming games</p>
+                <p class="text-purple-100 mt-2">Let us know when you're available for upcoming games</p>
             </div>
 
             <!-- Loading State -->
             <div v-if="isLoadingGames" class="flex justify-center items-center py-12">
-                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
             </div>
 
             <!-- Error State -->
@@ -33,35 +33,46 @@
             <!-- Games List -->
             <div v-else-if="games && games.length" class="p-6 space-y-6">
                 <div v-for="game in games" :key="game.id"
-                    class="border rounded-lg overflow-hidden transition-all duration-300 hover:shadow-md">
+                    class="border border-gray-200 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-md">
                     <!-- Game Header -->
-                    <div class="bg-gray-50 px-6 py-4 border-b">
+                    <div class="bg-gradient-to-r from-purple-50 to-white px-6 py-4 border-b">
                         <div class="flex justify-between items-start">
                             <div>
                                 <h4 class="text-lg font-semibold text-gray-900">{{ game.opponent }}</h4>
-                                <div class="mt-1 flex items-center text-sm text-gray-500">
-                                    <svg class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
-                                    <span>{{ formatDate(game.gameDate) }}</span>
-                                    <span class="mx-2">•</span>
-                                    <svg class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span>{{ formatTime(game.gameStart) }}</span>
+                                <div class="mt-1 flex flex-wrap items-center gap-3 text-sm text-gray-500">
+                                    <div class="flex items-center">
+                                        <svg class="h-4 w-4 mr-1 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                        <span>{{ formatDate(game.gameDate) }}</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <svg class="h-4 w-4 mr-1 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <span>{{ formatTime(game.gameStart) }}</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <svg class="h-4 w-4 mr-1 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                        <span>{{ game.venue }}</span>
+                                    </div>
                                 </div>
-                                <p class="mt-1 text-sm text-gray-600">{{ game.venue }}</p>
                             </div>
-                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                                 {{ game.gameType }}
                             </span>
                         </div>
                     </div>
 
                     <!-- Availability Form -->
-                    <div class="p-6">
+                    <div class="p-6 bg-white">
                         <div class="space-y-4">
                             <!-- Availability Selection -->
                             <div class="flex space-x-6">
@@ -70,8 +81,8 @@
                                         <input type="radio" :name="`availability-${game.id}`" value="true"
                                             v-model="availabilities[game.id].available" class="sr-only peer">
                                         <div
-                                            class="w-5 h-5 border-2 border-gray-300 rounded-full peer-checked:border-blue-600 
-                                            peer-checked:bg-blue-600 group-hover:border-blue-500 transition-colors duration-200">
+                                            class="w-5 h-5 border-2 border-gray-300 rounded-full peer-checked:border-purple-600 
+                                            peer-checked:bg-purple-600 group-hover:border-purple-500 transition-colors duration-200">
                                             <div class="w-2 h-2 rounded-full bg-white m-1.5 transform scale-0 peer-checked:scale-100 
                                                 transition-transform duration-200"></div>
                                         </div>
@@ -97,15 +108,23 @@
                             <!-- Comments -->
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Additional Notes</label>
-                                <textarea v-model="availabilities[game.id].comments"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                    rows="2" placeholder="Add any notes or comments here..."></textarea>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg class="h-5 w-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                        </svg>
+                                    </div>
+                                    <textarea v-model="availabilities[game.id].comments"
+                                        class="w-full pl-10 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 resize-none"
+                                        rows="2" placeholder="Add any notes or comments here..."></textarea>
+                                </div>
                             </div>
 
                             <!-- Submit Button -->
                             <div class="flex justify-end">
                                 <button @click="submitAvailability(game.id)" :disabled="isSubmitting[game.id]"
-                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200">
+                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200">
                                     <svg v-if="isSubmitting[game.id]" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
                                         fill="none" viewBox="0 0 24 24">
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
@@ -161,11 +180,11 @@
             <!-- No Games Message -->
             <div v-else class="p-12 text-center">
                 <div class="text-gray-500">
-                    <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="mx-auto h-12 w-12 text-purple-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                     </svg>
-                    <h3 class="mt-2 text-sm font-medium">No upcoming games</h3>
+                    <h3 class="mt-2 text-sm font-medium text-gray-900">No upcoming games</h3>
                     <p class="mt-1 text-sm text-gray-500">There are no games scheduled at this time.</p>
                 </div>
             </div>

@@ -1,73 +1,161 @@
 <template>
-    <div class="min-h-screen flex items-center justify-center bg-gray-100 p-y-12 p-x-4 sm:p-x-6 lg:p-x-8">
-        <div class="max-w-md w-full space-y-8 card">
+    <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8 bg-white p-8 shadow-lg rounded-xl border border-gray-100">
             <div>
+                <div class="w-20 h-20 mx-auto rounded-xl bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </div>
                 <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Welcome to Frog Crew</h2>
                 <p class="mt-2 text-center text-sm text-gray-600">
                     Complete your profile to join the crew
                 </p>
             </div>
 
-            <div v-if="invalidToken" class="bg-red-100 border border-red-400 text-red-700 p-x-4 p-y-3 rounded relative">
-                <p class="font-medium">Invalid or expired invitation</p>
-                <p class="text-sm">This invitation link is invalid or has expired. Please contact your administrator for
-                    a new invitation.</p>
+            <div v-if="invalidToken" class="bg-red-50 border-l-4 border-red-500 p-4 rounded-md">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-red-800">Invalid or expired invitation</p>
+                        <p class="text-sm text-red-700 mt-1">This invitation link is invalid or has expired. Please contact your administrator for a new invitation.</p>
+                    </div>
+                </div>
             </div>
 
             <form v-else class="mt-8 space-y-6" @submit.prevent="handleRegister">
-                <div v-if="errorMessage"
-                    class="bg-red-100 border border-red-400 text-red-700 p-x-4 p-y-3 rounded relative" role="alert">
-                    <span class="block sm:inline">{{ errorMessage }}</span>
+                <div v-if="errorMessage" class="bg-red-50 border-l-4 border-red-500 p-4 rounded-md">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-red-700">{{ errorMessage }}</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div v-if="successMessage"
-                    class="bg-purple-100 border border-purple-400 text-purple-700 p-x-4 p-y-3 rounded relative"
-                    role="alert">
-                    <span class="block sm:inline">{{ successMessage }}</span>
+                <div v-if="successMessage" class="bg-purple-50 border-l-4 border-purple-500 p-4 rounded-md">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-purple-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-purple-700">{{ successMessage }}</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="grid grid-cols-1 gap-4">
+                <div class="space-y-4">
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
-                        <input id="email" v-model="userData.email" name="email" type="email" required class="input mt-1"
-                            disabled />
+                        <div class="mt-1 relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <input id="email" v-model="userData.email" name="email" type="email" 
+                                class="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 bg-gray-50 text-gray-500" 
+                                required disabled />
+                        </div>
                         <p class="mt-1 text-xs text-gray-500">Email from your invitation cannot be changed</p>
                     </div>
 
-                    <div>
-                        <label for="firstName" class="block text-sm font-medium text-gray-700">First Name</label>
-                        <input id="firstName" v-model="userData.firstName" name="firstName" type="text" required
-                            class="input mt-1" />
-                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="firstName" class="block text-sm font-medium text-gray-700">First Name</label>
+                            <div class="mt-1 relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="h-5 w-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                </div>
+                                <input id="firstName" v-model="userData.firstName" name="firstName" type="text" 
+                                    class="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500" 
+                                    required placeholder="John" />
+                            </div>
+                        </div>
 
-                    <div>
-                        <label for="lastName" class="block text-sm font-medium text-gray-700">Last Name</label>
-                        <input id="lastName" v-model="userData.lastName" name="lastName" type="text" required
-                            class="input mt-1" />
+                        <div>
+                            <label for="lastName" class="block text-sm font-medium text-gray-700">Last Name</label>
+                            <div class="mt-1 relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="h-5 w-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                </div>
+                                <input id="lastName" v-model="userData.lastName" name="lastName" type="text" 
+                                    class="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500" 
+                                    required placeholder="Doe" />
+                            </div>
+                        </div>
                     </div>
 
                     <div>
                         <label for="phoneNumber" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                        <input id="phoneNumber" v-model="userData.phoneNumber" name="phoneNumber" type="tel" required
-                            class="input mt-1" placeholder="e.g. 123-456-7890" />
+                        <div class="mt-1 relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                </svg>
+                            </div>
+                            <input id="phoneNumber" v-model="userData.phoneNumber" name="phoneNumber" type="tel" 
+                                class="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500" 
+                                required placeholder="e.g. 123-456-7890" />
+                        </div>
                     </div>
 
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                        <input id="password" v-model="userData.password" name="password" type="password" required
-                            class="input mt-1" />
+                        <div class="mt-1 relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                            </div>
+                            <input id="password" v-model="userData.password" name="password" type="password" 
+                                class="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500" 
+                                required />
+                        </div>
                     </div>
 
                     <div>
-                        <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm
-                            Password</label>
-                        <input id="confirmPassword" v-model="confirmPassword" name="confirmPassword" type="password"
-                            required class="input mt-1" />
+                        <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                        <div class="mt-1 relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                            </div>
+                            <input id="confirmPassword" v-model="confirmPassword" name="confirmPassword" type="password" 
+                                class="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500" 
+                                required />
+                        </div>
                     </div>
                 </div>
 
                 <div>
-                    <button type="submit" class="btn btn-primary w-full" :disabled="isLoading">
+                    <button type="submit" 
+                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors duration-150 shadow-sm"
+                        :disabled="isLoading">
+                        <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                            <svg v-if="isLoading" class="animate-spin h-5 w-5 text-purple-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <svg v-else class="h-5 w-5 text-purple-300 group-hover:text-purple-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                        </span>
                         {{ isLoading ? 'Creating profile...' : 'Complete Registration' }}
                     </button>
                 </div>

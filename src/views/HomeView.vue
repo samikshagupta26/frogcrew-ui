@@ -1,300 +1,294 @@
 <template>
-    <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-        <!-- Loading State -->
-        <div v-if="isLoading" class="flex items-center justify-center min-h-screen">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-        </div>
-
-        <!-- Error State -->
-        <div v-else-if="apiError" class="flex items-center justify-center min-h-screen">
-            <div class="bg-red-50 p-6 rounded-xl max-w-md shadow-sm">
-                <p class="text-red-600 font-medium">{{ apiError }}</p>
-                <button @click="fetchProtectedData" class="mt-4 btn-primary">Retry</button>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <template v-else>
-            <!-- Modern Header -->
-            <header class="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-10">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between items-center py-4">
-                        <div class="flex items-center space-x-3">
-                            <div
-                                class="h-10 w-10 rounded-xl bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center shadow-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                </svg>
-                            </div>
-                            <h1
-                                class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">
-                                Frog Crew</h1>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <div class="flex items-center space-x-3 bg-slate-50 px-4 py-2 rounded-xl shadow-sm">
-                                <div
-                                    class="h-9 w-9 rounded-xl bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center text-white font-medium shadow-sm">
-                                    {{ user?.firstName?.charAt(0) || user?.role?.charAt(0) || 'U' }}
-                                </div>
-                                <span class="text-sm font-medium text-slate-700">{{ user?.firstName || user?.role ||
-                                    'User' }}</span>
-                            </div>
-                            <button @click="logout"
-                                class="p-2 rounded-xl bg-slate-50 hover:bg-slate-100 transition-all duration-200 shadow-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                                </svg>
-                            </button>
-                        </div>
+    <div class="min-h-screen bg-slate-50 flex">
+        <!-- Sidebar -->
+        <aside v-if="!isLoading && !apiError" class="w-64 bg-white shadow-md h-screen sticky top-0 border-r border-slate-200">
+            <div class="p-4 border-b border-slate-200">
+                <div class="flex items-center space-x-3">
+                    <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
                     </div>
+                    <h1 class="text-lg font-bold bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">
+                        Frog Crew
+                    </h1>
                 </div>
-            </header>
-
-            <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <!-- Breadcrumb navigation -->
-                <div v-if="activeFeature" class="mb-6 flex items-center text-sm text-slate-500">
-                    <button @click="resetFeature"
-                        class="hover:text-slate-700 flex items-center space-x-1 transition-colors duration-200">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </div>
+            
+            <div class="p-4">
+                <div class="flex flex-col space-y-1 mb-6">
+                    <button @click="resetFeature" class="text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-100 flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                         </svg>
                         <span>Dashboard</span>
                     </button>
-                    <svg class="h-4 w-4 mx-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                    <span class="text-slate-700 font-medium">{{ featureTitles[activeFeature] || activeFeature }}</span>
                 </div>
-
-                <!-- Dashboard view (when no feature is selected) -->
-                <div v-if="!activeFeature">
-                    <!-- Welcome Section -->
-                    <div
-                        class="card mb-8 bg-gradient-to-r from-purple-500 to-violet-600 text-white rounded-2xl overflow-hidden shadow-lg">
-                        <div class="p-8">
-                            <h2 class="text-3xl font-bold mb-3">Welcome to Frog Crew</h2>
-                            <p class="text-purple-100 text-lg">Manage your crew, schedule games, and stay organized
-                                with
-                                our comprehensive platform.</p>
-                        </div>
+                
+                <div v-if="isCrewRole">
+                    <p class="text-xs font-semibold uppercase text-slate-500 mb-2 px-3">Crew Options</p>
+                    <div class="flex flex-col space-y-1">
+                        <button v-for="feature in crewFeatures" :key="feature.id" 
+                            @click="setActiveFeature(feature.id)"
+                            class="text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-100 flex items-center space-x-2"
+                            :class="{'bg-purple-50 text-purple-700': activeFeature === feature.id}">
+                            <component :is="feature.icon" class="h-5 w-5 text-slate-500" :class="{'text-purple-500': activeFeature === feature.id}" />
+                            <span>{{ feature.title }}</span>
+                        </button>
                     </div>
+                </div>
+                
+                <div v-if="isAdminRole" class="mt-6">
+                    <p class="text-xs font-semibold uppercase text-slate-500 mb-2 px-3">Admin Options</p>
+                    <div class="flex flex-col space-y-1">
+                        <button v-for="feature in adminFeatures.filter(f => f.id !== 'game-management')" :key="feature.id" 
+                            @click="setActiveFeature(feature.id)"
+                            class="text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-100 flex items-center space-x-2"
+                            :class="{'bg-purple-50 text-purple-700': activeFeature === feature.id}">
+                            <component :is="feature.icon" class="h-5 w-5 text-slate-500" :class="{'text-purple-500': activeFeature === feature.id}" />
+                            <span>{{ feature.title }}</span>
+                        </button>
+                        <router-link to="/admin/game-management"
+                            class="text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-100 flex items-center space-x-2">
+                            <CalendarIcon class="h-5 w-5 text-slate-500" />
+                            <span>Game Management</span>
+                        </router-link>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-0 w-full p-4 border-t border-slate-200">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="h-8 w-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-700 font-medium">
+                            {{ user?.firstName?.charAt(0) || user?.role?.charAt(0) || 'U' }}
+                        </div>
+                        <span class="text-sm font-medium">{{ user?.firstName || user?.role || 'User' }}</span>
+                    </div>
+                </div>
+                <button @click="logout" class="w-full flex items-center justify-center space-x-2 py-2 rounded-lg border border-slate-200 hover:bg-slate-100 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                    <span class="text-sm">Logout</span>
+                </button>
+            </div>
+        </aside>
 
-                    <!-- Crew Dashboard -->
-                    <div v-if="isCrewRole" class="mb-8">
-                        <h2 class="text-2xl font-bold text-slate-800 mb-6">Crew Dashboard</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            <!-- Feature cards with improved design -->
-                            <div v-for="(feature, index) in crewFeatures" :key="index"
-                                class="card hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 rounded-2xl overflow-hidden bg-white">
-                                <div class="p-6 flex flex-col h-full">
-                                    <div class="mb-4 flex justify-center">
-                                        <div
-                                            :class="`h-14 w-14 rounded-xl ${feature.bgColor} flex items-center justify-center shadow-sm`">
-                                            <component :is="feature.icon" class="h-7 w-7" :class="feature.iconColor" />
-                                        </div>
-                                    </div>
-                                    <h3 class="text-lg font-semibold mb-2 text-center text-slate-800">{{ feature.title
-                                    }}</h3>
-                                    <p class="text-slate-600 mb-4 text-center text-sm">{{ feature.description }}</p>
-                                    <button @click="setActiveFeature(feature.id)"
-                                        class="btn-primary mt-auto hover:bg-opacity-90 transition-all duration-200 rounded-xl">
-                                        {{ feature.buttonText }}
-                                    </button>
-                                </div>
+        <div class="flex-1">
+            <!-- Loading State -->
+            <div v-if="isLoading" class="flex items-center justify-center min-h-screen">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+            </div>
+
+            <!-- Error State -->
+            <div v-else-if="apiError" class="flex items-center justify-center min-h-screen">
+                <div class="bg-red-50 p-6 rounded-xl max-w-md shadow-sm">
+                    <p class="text-red-600 font-medium">{{ apiError }}</p>
+                    <button @click="fetchProtectedData" class="mt-4 btn-primary">Retry</button>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div v-else class="min-h-screen">
+                <!-- Breadcrumb and header for active feature -->
+                <header v-if="activeFeature" class="bg-white border-b border-slate-200 px-8 py-4">
+                    <div class="flex items-center text-sm text-slate-500">
+                        <button @click="resetFeature" class="hover:text-slate-700 flex items-center space-x-1 transition-colors duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                            </svg>
+                            <span>Dashboard</span>
+                        </button>
+                        <svg class="h-4 w-4 mx-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                        <span class="text-slate-700 font-medium">{{ featureTitles[activeFeature] || activeFeature }}</span>
+                    </div>
+                    <h1 class="text-2xl font-bold text-slate-800 mt-2">{{ featureTitles[activeFeature] || activeFeature }}</h1>
+                </header>
+
+                <!-- Dashboard Content when no feature is selected -->
+                <div v-if="!activeFeature" class="p-8">
+                    <!-- Welcome Banner -->
+                    <div class="mb-8 bg-white shadow-sm rounded-2xl overflow-hidden border border-slate-200">
+                        <div class="p-6 relative overflow-hidden">
+                            <div class="relative z-10">
+                                <h2 class="text-2xl font-bold text-slate-800 mb-2">Welcome to Frog Crew</h2>
+                                <p class="text-slate-600">Manage your crew, schedule games, and stay organized with our comprehensive platform.</p>
                             </div>
+                            <div class="absolute right-0 top-0 bottom-0 w-64 bg-gradient-to-l from-purple-100 to-transparent"></div>
                         </div>
                     </div>
 
                     <!-- Admin Dashboard -->
-                    <div v-if="isAdminRole" class="mb-8">
-                        <div class="flex items-center justify-between mb-8">
-                            <h2 class="text-3xl font-bold text-slate-800">Admin Dashboard</h2>
-                            <div class="flex items-center space-x-4">
-                                <div class="flex items-center space-x-2 bg-slate-50 px-4 py-2 rounded-xl">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span class="text-sm font-medium text-slate-600">Last updated: {{ new
-                                        Date().toLocaleDateString() }}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Quick Stats -->
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <p class="text-sm font-medium text-slate-500">Total Crew</p>
-                                        <h3 class="text-2xl font-bold text-slate-800 mt-1">24</h3>
-                                    </div>
+                    <div v-if="isAdminRole" class="space-y-8">
+                        <!-- Quick Stats in horizontal layout -->
+                        <div class="bg-white shadow-sm rounded-2xl p-6 border border-slate-200">
+                            <h3 class="text-lg font-bold text-slate-800 mb-4">Quick Stats</h3>
+                            <div class="grid grid-cols-4 gap-8">
+                                <div class="flex items-center space-x-4">
                                     <div class="h-12 w-12 rounded-xl bg-blue-50 flex items-center justify-center">
                                         <UsersIcon class="h-6 w-6 text-blue-600" />
                                     </div>
-                                </div>
-                                <div class="mt-4">
-                                    <span class="text-sm text-purple-600 font-medium">+2 new this week</span>
-                                </div>
-                            </div>
-                            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                                <div class="flex items-center justify-between">
                                     <div>
-                                        <p class="text-sm font-medium text-slate-500">Upcoming Games</p>
-                                        <h3 class="text-2xl font-bold text-slate-800 mt-1">8</h3>
+                                        <p class="text-sm font-medium text-slate-500">Total Crew</p>
+                                        <div class="flex items-baseline">
+                                            <h3 class="text-2xl font-bold text-slate-800">24</h3>
+                                            <span class="ml-2 text-xs text-purple-600">+2 new</span>
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="flex items-center space-x-4">
                                     <div class="h-12 w-12 rounded-xl bg-cyan-50 flex items-center justify-center">
                                         <CalendarIcon class="h-6 w-6 text-cyan-600" />
                                     </div>
-                                </div>
-                                <div class="mt-4">
-                                    <span class="text-sm text-blue-600 font-medium">3 this week</span>
-                                </div>
-                            </div>
-                            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                                <div class="flex items-center justify-between">
                                     <div>
-                                        <p class="text-sm font-medium text-slate-500">Pending Invites</p>
-                                        <h3 class="text-2xl font-bold text-slate-800 mt-1">5</h3>
+                                        <p class="text-sm font-medium text-slate-500">Upcoming Games</p>
+                                        <div class="flex items-baseline">
+                                            <h3 class="text-2xl font-bold text-slate-800">8</h3>
+                                            <span class="ml-2 text-xs text-blue-600">3 this week</span>
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="flex items-center space-x-4">
                                     <div class="h-12 w-12 rounded-xl bg-pink-50 flex items-center justify-center">
                                         <EnvelopeIcon class="h-6 w-6 text-pink-600" />
                                     </div>
-                                </div>
-                                <div class="mt-4">
-                                    <span class="text-sm text-amber-600 font-medium">2 awaiting response</span>
-                                </div>
-                            </div>
-                            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                                <div class="flex items-center justify-between">
                                     <div>
-                                        <p class="text-sm font-medium text-slate-500">Crew Availability</p>
-                                        <h3 class="text-2xl font-bold text-slate-800 mt-1">85%</h3>
+                                        <p class="text-sm font-medium text-slate-500">Pending Invites</p>
+                                        <div class="flex items-baseline">
+                                            <h3 class="text-2xl font-bold text-slate-800">5</h3>
+                                            <span class="ml-2 text-xs text-amber-600">2 awaiting</span>
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="flex items-center space-x-4">
                                     <div class="h-12 w-12 rounded-xl bg-purple-50 flex items-center justify-center">
                                         <ClipboardDocumentCheckIcon class="h-6 w-6 text-purple-600" />
                                     </div>
-                                </div>
-                                <div class="mt-4">
-                                    <span class="text-sm text-purple-600 font-medium">+5% from last week</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Admin Features Grid -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            <!-- Feature cards with improved design -->
-                            <div v-for="(feature, index) in adminFeatures" :key="index"
-                                class="group card hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 rounded-2xl overflow-hidden bg-white border border-slate-100">
-                                <div class="p-6 flex flex-col h-full">
-                                    <div class="mb-4 flex justify-center">
-                                        <div
-                                            :class="`h-16 w-16 rounded-xl ${feature.bgColor} flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300`">
-                                            <component :is="feature.icon" class="h-8 w-8" :class="feature.iconColor" />
+                                    <div>
+                                        <p class="text-sm font-medium text-slate-500">Crew Availability</p>
+                                        <div class="flex items-baseline">
+                                            <h3 class="text-2xl font-bold text-slate-800">85%</h3>
+                                            <span class="ml-2 text-xs text-purple-600">+5%</span>
                                         </div>
                                     </div>
-                                    <h3 class="text-xl font-semibold mb-2 text-center text-slate-800">{{ feature.title
-                                    }}</h3>
-                                    <p class="text-slate-600 mb-4 text-center text-sm">{{ feature.description }}</p>
-                                    <button v-if="feature.id !== 'game-management'"
-                                        @click="setActiveFeature(feature.id)"
-                                        class="btn-primary mt-auto hover:bg-opacity-90 transition-all duration-200 rounded-xl group-hover:shadow-md">
-                                        {{ feature.buttonText }}
-                                    </button>
-                                    <router-link v-else to="/admin/game-management"
-                                        class="btn-primary mt-auto hover:bg-opacity-90 transition-all duration-200 rounded-xl group-hover:shadow-md block text-center">
-                                        {{ feature.buttonText }}
-                                    </router-link>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Recent Activity -->
-                        <div class="mt-8">
-                            <h3 class="text-xl font-bold text-slate-800 mb-4">Recent Activity</h3>
-                            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-                                <div class="divide-y divide-slate-100">
-                                    <div class="p-4 hover:bg-slate-50 transition-colors duration-200">
-                                        <div class="flex items-center space-x-3">
-                                            <div
-                                                class="h-8 w-8 rounded-full bg-blue-50 flex items-center justify-center">
+                        <!-- Features and Recent Activity in 2-column layout -->
+                        <div class="grid grid-cols-3 gap-8">
+                            <!-- Admin Features -->
+                            <div class="col-span-2 bg-white shadow-sm rounded-2xl p-6 border border-slate-200">
+                                <h3 class="text-lg font-bold text-slate-800 mb-4">Admin Tools</h3>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div v-for="(feature, index) in adminFeatures" :key="index"
+                                        class="group p-4 border border-slate-200 rounded-xl hover:border-purple-200 transition-colors">
+                                        <div class="flex items-center space-x-4">
+                                            <div :class="`h-12 w-12 rounded-xl ${feature.bgColor} flex items-center justify-center`">
+                                                <component :is="feature.icon" class="h-6 w-6" :class="feature.iconColor" />
+                                            </div>
+                                            <div>
+                                                <h4 class="font-medium text-slate-800">{{ feature.title }}</h4>
+                                                <p class="text-xs text-slate-500 mt-1">{{ feature.description }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4">
+                                            <button v-if="feature.id !== 'game-management'"
+                                                @click="setActiveFeature(feature.id)"
+                                                class="w-full btn-primary text-sm py-1.5">
+                                                {{ feature.buttonText }}
+                                            </button>
+                                            <router-link v-else to="/admin/game-management"
+                                                class="w-full btn-primary text-sm py-1.5 block text-center">
+                                                {{ feature.buttonText }}
+                                            </router-link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Recent Activity -->
+                            <div class="bg-white shadow-sm rounded-2xl p-6 border border-slate-200">
+                                <h3 class="text-lg font-bold text-slate-800 mb-4">Recent Activity</h3>
+                                <div class="space-y-4">
+                                    <div class="border-b border-slate-100 pb-4">
+                                        <div class="flex items-start space-x-3">
+                                            <div class="h-8 w-8 rounded-full bg-blue-50 flex items-center justify-center mt-1">
                                                 <UsersIcon class="h-4 w-4 text-blue-600" />
                                             </div>
                                             <div>
                                                 <p class="text-sm font-medium text-slate-800">New crew member added</p>
                                                 <p class="text-xs text-slate-500">John Doe joined the team</p>
+                                                <p class="text-xs text-slate-400 mt-1">2 hours ago</p>
                                             </div>
-                                            <span class="text-xs text-slate-400 ml-auto">2 hours ago</span>
                                         </div>
                                     </div>
-                                    <div class="p-4 hover:bg-slate-50 transition-colors duration-200">
-                                        <div class="flex items-center space-x-3">
-                                            <div
-                                                class="h-8 w-8 rounded-full bg-cyan-50 flex items-center justify-center">
+                                    <div class="border-b border-slate-100 pb-4">
+                                        <div class="flex items-start space-x-3">
+                                            <div class="h-8 w-8 rounded-full bg-cyan-50 flex items-center justify-center mt-1">
                                                 <CalendarIcon class="h-4 w-4 text-cyan-600" />
                                             </div>
                                             <div>
                                                 <p class="text-sm font-medium text-slate-800">Game scheduled</p>
                                                 <p class="text-xs text-slate-500">Saturday Night Game added</p>
+                                                <p class="text-xs text-slate-400 mt-1">5 hours ago</p>
                                             </div>
-                                            <span class="text-xs text-slate-400 ml-auto">5 hours ago</span>
                                         </div>
                                     </div>
-                                    <div class="p-4 hover:bg-slate-50 transition-colors duration-200">
-                                        <div class="flex items-center space-x-3">
-                                            <div
-                                                class="h-8 w-8 rounded-full bg-purple-50 flex items-center justify-center">
+                                    <div>
+                                        <div class="flex items-start space-x-3">
+                                            <div class="h-8 w-8 rounded-full bg-purple-50 flex items-center justify-center mt-1">
                                                 <ClipboardDocumentCheckIcon class="h-4 w-4 text-purple-600" />
                                             </div>
                                             <div>
                                                 <p class="text-sm font-medium text-slate-800">Availability updated</p>
-                                                <p class="text-xs text-slate-500">5 crew members updated their
-                                                    availability</p>
+                                                <p class="text-xs text-slate-500">5 crew members updated their availability</p>
+                                                <p class="text-xs text-slate-400 mt-1">1 day ago</p>
                                             </div>
-                                            <span class="text-xs text-slate-400 ml-auto">1 day ago</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Feature Content Section -->
-                <div v-else class="feature-content">
-                    <!-- Crew Profile Viewer -->
-                    <CrewProfileView v-if="activeFeature === 'profile-viewer'" :userId="user?.id || null" />
-
-                    <!-- Game Calendar -->
-                    <GameCalendar v-if="activeFeature === 'game-calendar'" />
-
-                    <!-- Availability Form -->
-                    <AvailabilityForm v-if="activeFeature === 'availability'" />
-
-                    <!-- Invite Form -->
-                    <InviteForm v-if="activeFeature === 'invite-workflow'" />
-
-                    <!-- Crew Directory -->
-                    <CrewDirectory v-if="activeFeature === 'crew-directory' || activeFeature === 'admin-crew'" />
-
-                    <!-- Crew Assignment Board -->
-                    <CrewAssignmentBoard v-if="activeFeature === 'crew-assignment'" />
-
-                    <div v-if="['game-crew-list', 'schedule-builder', 'game-manager'].includes(activeFeature)"
-                        class="card rounded-2xl">
-                        <h3 class="text-xl font-bold mb-4 text-slate-800">{{ featureTitles[activeFeature] }}</h3>
-                        <p class="text-slate-600">This feature is coming soon!</p>
+                    <!-- Crew Dashboard -->
+                    <div v-if="isCrewRole" class="space-y-6">
+                        <div class="grid grid-cols-2 gap-6">
+                            <div v-for="(feature, index) in crewFeatures" :key="index"
+                                class="bg-white shadow-sm rounded-2xl p-6 border border-slate-200 hover:border-purple-200 transition-all duration-300">
+                                <div class="flex items-center justify-between">
+                                    <div :class="`h-12 w-12 rounded-xl ${feature.bgColor} flex items-center justify-center`">
+                                        <component :is="feature.icon" class="h-6 w-6" :class="feature.iconColor" />
+                                    </div>
+                                    <button @click="setActiveFeature(feature.id)"
+                                        class="btn-primary text-sm py-1.5 px-4">
+                                        {{ feature.buttonText }}
+                                    </button>
+                                </div>
+                                <h3 class="text-lg font-medium text-slate-800 mt-4">{{ feature.title }}</h3>
+                                <p class="text-sm text-slate-600 mt-1">{{ feature.description }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </main>
-        </template>
+
+                <!-- Feature Content Here -->
+                <div v-if="activeFeature" class="p-8">
+                    <component 
+                        :is="activeFeatureComponent" 
+                        v-if="activeFeatureComponent"
+                        :userId="activeFeature === 'profile-viewer' ? user?.id : null"
+                    ></component>
+                    <div v-else class="bg-white shadow-sm rounded-2xl p-6 border border-slate-200">
+                        <p>Loading feature {{ activeFeature }}...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -346,6 +340,27 @@ const featureTitles = {
     'game-manager': 'Game Manager',
     'crew-assignment': 'Crew Assignment Board'
 }
+
+// Computed property to map active feature to component
+const activeFeatureComponent = computed(() => {
+    switch (activeFeature.value) {
+        case 'profile-viewer':
+            return CrewProfileView;
+        case 'game-calendar':
+            return GameCalendar;
+        case 'availability':
+            return AvailabilityForm;
+        case 'invite-workflow':
+            return InviteForm;
+        case 'crew-directory':
+        case 'admin-crew':
+            return CrewDirectory;
+        case 'crew-assignment':
+            return CrewAssignmentBoard;
+        default:
+            return null;
+    }
+});
 
 // Feature configurations
 const crewFeatures = [
